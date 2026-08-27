@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/* ── Tailwind v4 dark mode: class-based via JS toggle (not media query) ── */
+@variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+
+  --color-brand-50: #fdfaee;
+  --color-brand-100: #f9f1d8;
+  --color-brand-200: #f3e4ae;
+  --color-brand-300: #ebd07a;
+  --color-brand-400: #e5c158;
+  --color-brand-500: #d4af37;
+  --color-brand-600: #b5952f;
+  --color-brand-700: #8f7223;
+  --color-brand-800: #6b5319;
+  --color-brand-900: #4a3d13;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+
+/* ─── Noise overlay ─────────────────────────────────────────────────── */
+.noise-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+.dark .noise-bg {
+  opacity: 0.05;
+}
+
+/* ─── Glassmorphism ─────────────────────────────────────────────────── */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Metallic text ─────────────────────────────────────────────────── */
+.text-metallic {
+  background: linear-gradient(to right, #bf9b30, #e5c158, #f9f1d8, #d4af37, #bf9b30);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine 4s linear infinite;
+  font-style: italic;
+}
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+/* ─── Float animation ───────────────────────────────────────────────── */
+@keyframes float {
+  0%   { transform: translateY(0px) scale(1); }
+  50%  { transform: translateY(-20px) scale(1.02); }
+  100% { transform: translateY(0px) scale(1); }
+}
+.animate-float           { animation: float 10s ease-in-out infinite; }
+.animate-float-delayed   { animation: float 12s ease-in-out infinite 2s; }
+
+/* ─── Image vignette ────────────────────────────────────────────────── */
+.img-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.3) 40%,
+    rgba(0,0,0,0)   100%
+  );
+}
+
+/* ─── Custom scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-brand-500); border-radius: 3px; }
+
+/* ─── Lenis smooth scroll ───────────────────────────────────────────── */
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
