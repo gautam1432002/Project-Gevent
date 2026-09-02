@@ -23,7 +23,7 @@ export default function Scene({ scrollProgress, pointer }) {
         alpha: true,
         powerPreference: 'high-performance',
         toneMapping: 4, // ACESFilmicToneMapping
-        toneMappingExposure: 1.2,
+        toneMappingExposure: 1.35, // lifted slightly for brighter crystal specular peaks
       }}
       shadows
       dpr={[1, 1.5]}
@@ -48,9 +48,9 @@ export default function Scene({ scrollProgress, pointer }) {
       {/* Post-processing effects */}
       <EffectComposer>
         <Bloom
-          intensity={1.4}
-          luminanceThreshold={0.6}
-          luminanceSmoothing={0.9}
+          intensity={1.6}
+          luminanceThreshold={0.4}   // lower threshold — catches sharp crystal-edge specular hits
+          luminanceSmoothing={0.7}   // tighter smooth — crisper gleam, not soft glow
           mipmapBlur
         />
         <Vignette eskil={false} offset={0.3} darkness={0.7} />
